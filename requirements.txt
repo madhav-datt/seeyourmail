@@ -1,5 +1,4 @@
 keyring
-re
 email
 getpass
 imaplib
