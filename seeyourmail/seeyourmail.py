@@ -8,10 +8,30 @@
 
 import poplib
 from email import parser
+from authenticate import connect_email_account, get_password
 
+# Email login credentials
+_username = None
 pop_conn = poplib.POP3_SSL('pop.gmail.com')
-pop_conn.user(username)
-pop_conn.pass_(password)
+
+
+def login(username, password=None):
+    """
+    Login to email account from which emails have to be retrieved
+
+    :param username: email address for gmail account to be used
+    :param password: password for gmail account associated with username
+    :return:
+    """
+    global _username
+    _username = username
+
+    if password:
+        connect_email_account(username, password)
+
+    pop_conn.user(_username)
+    pop_conn.pass_(get_password(_username))
+
 
 # Get messages from server:
 messages = [pop_conn.retr(i) for i in range(1, len(pop_conn.list()[1]) + 1)]
