@@ -5,7 +5,7 @@ setup(
     name='seeyourmail',
     packages=['seeyourmail'],
     version='1.0',
-    description='A minimalistic and simplified command line email client',
+    description='seeyourmail makes retrieving and checking your email in programs as simple as can be',
     author='Madhav Datt',
     author_email='madhav.datt@hotmail.com',
     url='https://github.com/madhav-datt/seeyourmail',
