@@ -7,12 +7,15 @@
 #
 
 import imaplib
+import os
 from email import parser
 from authenticate import connect_email_account, get_password
 
 # Email login credentials
 _username = None
-m = imaplib.IMAP4_SSL("imap.gmail.com")
+
+# Connecting to the gmail IMAP server
+imap_conn = imaplib.IMAP4_SSL("imap.gmail.com")
 
 
 def login(username, password=None):
@@ -21,7 +24,6 @@ def login(username, password=None):
 
     :param username: email address for gmail account to be used
     :param password: password for gmail account associated with username
-    :return:
     """
     global _username
     _username = username
@@ -29,8 +31,7 @@ def login(username, password=None):
     if password:
         connect_email_account(username, password)
 
-    # pop_conn.user(_username)
-    # pop_conn.pass_(get_password(_username))
+    imap_conn.login(_username, get_password(_username))
 
 
 # # Get messages from server:
