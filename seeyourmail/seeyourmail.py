@@ -33,14 +33,5 @@ def login(username, password=None):
 
     imap_conn.login(_username, get_password(_username))
 
-
-# # Get messages from server:
-# messages = [pop_conn.retr(i) for i in range(1, len(pop_conn.list()[1]) + 1)]
-#
-# # Concat message pieces:
-# messages = ["\n".join(message[1]) for message in messages]
-#
-# # Parse message intom an email object:
-# messages = [parser.Parser().parsestr(message) for message in messages]
-#
-# pop_conn.quit()
+    # Select gmail mail box to retrieve emails from
+    imap_conn.select("[Gmail]/All Mail")
