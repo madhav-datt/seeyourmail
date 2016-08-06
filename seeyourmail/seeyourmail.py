@@ -35,11 +35,6 @@ def login(username, password=None):
     if password:
         connect_email_account(username, password)
 
-    imap_conn.login(_username, get_password(_username))
-
-    # Select gmail mail box to retrieve emails from
-    imap_conn.select("[Gmail]/All Mail")
-
 
 def getmail(dir_path='~/sym_data'):
     """
@@ -48,13 +43,21 @@ def getmail(dir_path='~/sym_data'):
     :return: list of emails retrieved according to selected parameters
     """
 
+    imap_conn.login(_username, get_password(_username))
+
+    # Select gmail mail box to retrieve emails from
+    imap_conn.select("[Gmail]/All Mail")
+
     mail_list = []
 
     if not isdir(dir_path):
         mkdir(dir_path)
 
-    # Filter emails based on IMAP rules
+    # Filter emails based on IMAP rules TODO Implement email filtering criteria builder
     response, items = imap_conn.search(None, "ALL")
+    if response != 'OK':
+        pass  # TODO Raise exception
+
     mail_items = items[0].split()
 
     for email_id in mail_items:
