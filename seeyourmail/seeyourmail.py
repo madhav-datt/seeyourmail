@@ -27,7 +27,7 @@ def login(username, password=None):
     """
     global _username
     _username = username
-
+    # TODO validate email id as gmail, error handling
     if password:
         connect_email_account(username, password)
 
@@ -43,6 +43,8 @@ def getmail():
     :return: list of emails retrieved according to selected parameters
     """
 
+    mail_list = []
+
     # Filter emails based on IMAP rules
     response, items = imap_conn.search(None, "ALL")
     mail_items = items[0].split()
@@ -53,11 +55,26 @@ def getmail():
         email_body = data[0][1]
         mail = email.message_from_string(email_body)
 
+        # Parse sender's name from the email object's from field
+        sender = mail['from'].split()[:-1]
+        sender = ' '.join(sender)[1:-1]
+
+        attachment = None
+        content = None
+        if not mail.is_multipart():
+            content = mail.get_payload()
+
         # Email contents and data dictionary
         _mail_dict = {
-            'from': mail['from'],
+            'from': mail['return-path'],
             'to': mail['to'],
             'date': mail['date'],
             'subject': mail['subject'],
-            'from'
+            'sender': sender,
+            'content': content,
+            'attachment': attachment,
+            'email': mail
         }
+        mail_list.append(_mail_dict)
+
+    return mail_list
