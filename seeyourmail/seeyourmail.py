@@ -3,7 +3,7 @@
 # Retrieve emails from @gmail.com addresses
 #
 # Copyright (C)   2016    Madhav Datt
-# http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+# https://opensource.org/licenses/MIT
 #
 
 import imaplib
@@ -43,6 +43,7 @@ def getmail(dir_path='~/sym_data'):
     :return: list of emails retrieved according to selected parameters
     """
 
+    # TODO add re-login after SSL overheat criteria and system
     imap_conn.login(_username, get_password(_username))
 
     # Select gmail mail box to retrieve emails from
@@ -89,7 +90,8 @@ def getmail(dir_path='~/sym_data'):
 
                 # If part is text/not an attachment
                 if part.get('Content-Disposition') is None:
-                    if part.get_content_type() == 'text/plain':
+                    content_type = part.get_content_type()
+                    if content_type == 'text/plain' or content_type == 'text/html':
                         # Retrieve body text/contents of email as plain text
                         content = content + '' + part.get_payload()
                     continue
