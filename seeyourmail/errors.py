@@ -26,6 +26,6 @@ class AuthenticationError(Exception):
     """
     Authentication failed. Either due an incorrect password, or if gmail two-step authentication is activated, or if
     less secure apps are not allowed to access the specified gmail account. To enable access from less secure apps,
-    follow the steps at https://support.google.com/a/answer/6260879?hl=en
+    follow the steps at https://support.google.com/mail/answer/78754
     """
     pass

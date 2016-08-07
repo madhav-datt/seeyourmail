@@ -17,6 +17,7 @@ def connect_email_account(email, password):
     :param password: Password for email address
     :raises keyring.errors.PasswordSetError
     """
+
     # Raises keyring.errors.PasswordSetError if password not set
     keyring.set_password('symail', email, password)
 

@@ -1,3 +1,4 @@
+#
 # RFC 2822 - style email validation for Python
 # (c) 2012 Syrus Akbary <me@syrusakbary.com>
 # Extended from (c) 2011 Noel Bush <noel@aitools.org>
@@ -16,9 +17,12 @@
 # This implementation aims to be faithful to the RFC, with the
 # exception of a circular definition (see comments below), and
 # with the omission of the pattern components marked as "obsolete".
+#
 
 import re
+from errors import EmailAddressError
 
+#
 # All we are really doing is comparing the input string to one
 # gigantic regular expression.  But building that regexp, and
 # ensuring its correctness, is made much easier by assembling it
@@ -85,10 +89,8 @@ def validate_email(email):
     Will only filter out syntax mistakes in email addresses
     Most "valid looking" gmail email address will pass even if the email address is not
     claimed or used by a user
-    :raises
+    :raises EmailAddressError
     """
 
     if not re.match(GMAIL_REGEXP, email):
-        return False  # TODO raise exception
-
-    return True
+        raise EmailAddressError('Invalid gmail address')

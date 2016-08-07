@@ -12,6 +12,7 @@ import io
 from os import mkdir
 from os.path import isfile, join, isdir
 from authenticate import connect_email_account, get_password
+from errors import EmailAddressError, AuthenticationError, SearchCriteriaError
 from validate import validate_email
 
 # Email login credentials
@@ -44,8 +45,9 @@ def getmail(dir_path='~/sym_data'):
     :return: list of emails retrieved according to selected parameters
     """
 
-    # TODO add re-login after SSL overheat criteria and system
-    imap_conn.login(_username, get_password(_username))
+    response, _ = imap_conn.login(_username, get_password(_username))
+    if response != 'OK':
+        raise AuthenticationError('Login Failed')
 
     # Select gmail mail box to retrieve emails from
     imap_conn.select("[Gmail]/All Mail")
@@ -58,7 +60,7 @@ def getmail(dir_path='~/sym_data'):
     # Filter emails based on IMAP rules TODO Implement email filtering criteria builder
     response, items = imap_conn.search(None, "ALL")
     if response != 'OK':
-        pass  # TODO Raise exception
+        raise SearchCriteriaError('Search criteria building failed. Could not parse conditions')
 
     mail_items = items[0].split()
 
