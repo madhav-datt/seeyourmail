@@ -12,6 +12,7 @@ import io
 from os import mkdir
 from os.path import isfile, join, isdir
 from authenticate import connect_email_account, get_password
+from validate import validate_email
 
 # Email login credentials
 _username = None
@@ -30,8 +31,8 @@ def login(username, password=None):
 
     global _username
     _username = username
+    validate_email(username)
 
-    # TODO validate email id as gmail, error handling
     if password:
         connect_email_account(username, password)
 

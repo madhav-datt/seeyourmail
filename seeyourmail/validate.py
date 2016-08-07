@@ -85,6 +85,7 @@ def validate_email(email):
     Will only filter out syntax mistakes in email addresses
     Most "valid looking" gmail email address will pass even if the email address is not
     claimed or used by a user
+    :raises
     """
 
     if not re.match(GMAIL_REGEXP, email):
