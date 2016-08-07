@@ -12,7 +12,7 @@ import io
 from os import mkdir
 from os.path import isfile, join, isdir
 from authenticate import connect_email_account, get_password
-from errors import EmailAddressError, AuthenticationError, SearchCriteriaError
+from errors import AuthenticationError, SearchCriteriaError
 from validate import validate_email
 
 # Email login credentials
@@ -38,27 +38,34 @@ def login(username, password=None):
         connect_email_account(username, password)
 
 
-def getmail(dir_path='~/sym_data'):
+def getmail(search_cond=None, dir_path='~/sym_data'):
     """
-    Fetch, parse and arrange email contents from specified mail account
+    Fetch, parse and arrange email contents from specified mail account according to inputted
+    natural language search criteria
 
+    :param search_cond: natural language english input with email search criteria
+    :param dir_path: path where email attachments are downloaded and stored
     :return: list of emails retrieved according to selected parameters
+    :raises AuthenticationError: if login fails/could not authenticate
+    :raises SearchCriteriaError: if search criteria could not be built from natural language input
     """
+
+    mail_box, search_criteria = _nl_process(search_cond)
 
     response, _ = imap_conn.login(_username, get_password(_username))
     if response != 'OK':
         raise AuthenticationError('Login Failed')
 
     # Select gmail mail box to retrieve emails from
-    imap_conn.select("[Gmail]/All Mail")
+    imap_conn.select(mail_box)
 
     mail_list = []
 
     if not isdir(dir_path):
         mkdir(dir_path)
 
-    # Filter emails based on IMAP rules TODO Implement email filtering criteria builder
-    response, items = imap_conn.search(None, "ALL")
+    # Filter emails based on IMAP rules
+    response, items = imap_conn.search(None, search_criteria)
     if response != 'OK':
         raise SearchCriteriaError('Search criteria building failed. Could not parse conditions')
 
