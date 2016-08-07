@@ -37,18 +37,30 @@ def login(username, password=None):
         connect_email_account(username, password)
 
 
-def getmail(search_cond=None, dir_path='~/sym_data'):
+def _nlp_process(search_cond):
+    """
+    Build structured search criteria from constraints specified in the natural language input string
+    :param search_cond: natural language english input with email search criteria
+    :return: mail_box, gmail mail box to retrieve emails from
+    :return: search_criteria, structured search criteria string
+    """
+
+    if search_cond is None:
+        return '[Gmail]/All Mail', 'ALL'
+
+
+def getmail(search_condition=None, dir_path='~/sym_data'):
     """
     Fetch, parse and arrange email contents from specified mail account according to inputted
     natural language search criteria
-    :param search_cond: natural language english input with email search criteria
+    :param search_condition: natural language english input with email search criteria
     :param dir_path: path where email attachments are downloaded and stored
     :return: list of emails retrieved according to selected parameters
     :raises AuthenticationError: if login fails/could not authenticate
     :raises SearchCriteriaError: if search criteria could not be built from natural language input
     """
 
-    mail_box, search_criteria = _nl_process(search_cond)
+    mail_box, search_criteria = _nlp_process(search_condition)
 
     response, _ = imap_conn.login(_username, get_password(_username))
     if response != 'OK':
