@@ -25,7 +25,6 @@ imap_conn = imaplib.IMAP4_SSL("imap.gmail.com")
 def login(username, password=None):
     """
     Login to email account from which emails have to be retrieved
-
     :param username: email address for gmail account to be used
     :param password: password for gmail account associated with username
     """
@@ -42,7 +41,6 @@ def getmail(search_cond=None, dir_path='~/sym_data'):
     """
     Fetch, parse and arrange email contents from specified mail account according to inputted
     natural language search criteria
-
     :param search_cond: natural language english input with email search criteria
     :param dir_path: path where email attachments are downloaded and stored
     :return: list of emails retrieved according to selected parameters
