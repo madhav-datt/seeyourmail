@@ -45,6 +45,11 @@ def _nlp_process(search_cond):
     :return: search_criteria, structured search criteria string
     """
 
+    mail_box_list = ['INBOX', '[Gmail]', '[Gmail]/All Mail', '[Gmail]/Drafts', '[Gmail]/Important', '[Gmail]/Sent Mail',
+                     '[Gmail]/Spam', '[Gmail]/Starred', '[Gmail]/Trash']
+
+    mail_type = ['ANSWERED', 'ALL', 'SEEN', 'UNSEEN', 'RECENT', 'OLD', 'NEW']
+
     if search_cond is None:
         return '[Gmail]/All Mail', 'ALL'
 
