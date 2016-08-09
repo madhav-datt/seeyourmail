@@ -14,6 +14,7 @@ from os.path import isfile, join, isdir
 from authenticate import connect_email_account, get_password
 from errors import AuthenticationError, SearchCriteriaError
 from validate import validate_email
+from nlp_process import nlp_process
 
 # Email login credentials
 _username = None
@@ -48,7 +49,7 @@ def getmail(search_condition=None, dir_path='~/sym_data'):
     :raises SearchCriteriaError: if search criteria could not be built from natural language input
     """
 
-    mail_box, search_criteria = _nlp_process(search_condition)
+    mail_box, search_criteria = nlp_process(search_condition)
 
     response, _ = imap_conn.login(_username, get_password(_username))
     if response != 'OK':

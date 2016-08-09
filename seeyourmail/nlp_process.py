@@ -1,4 +1,16 @@
-def _nlp_process(search_cond):
+#
+# Contains natural language processing and search criteria generation functions
+#
+# Copyright (C)   2016    Madhav Datt
+# https://opensource.org/licenses/MIT
+#
+
+import nltk
+stemmer = nltk.snowball.EnglishStemmer()
+# TODO find data sets for machine learning methods, build stop-word lists, keyword lists
+
+
+def nlp_process(search_cond):
     """
     Build structured search criteria from constraints specified in the natural language input string
     :param search_cond: natural language english input with email search criteria
