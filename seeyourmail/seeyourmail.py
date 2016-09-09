@@ -11,10 +11,20 @@ import email
 import io
 from os import mkdir
 from os.path import isfile, join, isdir
-from authenticate import connect_email_account, get_password
-from errors import AuthenticationError, SearchCriteriaError
-from validate import validate_email
-from nlp_process import nlp_process
+
+# Hacky import error fix for interactive loading
+try:
+    from .authenticate import connect_email_account, get_password
+    from .errors import AuthenticationError, SearchCriteriaError
+    from .validate import validate_email
+    from .nlp_process import nlp_process
+
+except (ValueError, SystemError, ImportError):
+    from authenticate import connect_email_account, get_password
+    from errors import AuthenticationError, SearchCriteriaError
+    from validate import validate_email
+    from nlp_process import nlp_process
+
 
 # Email login credentials
 _username = None
