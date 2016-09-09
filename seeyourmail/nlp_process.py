@@ -7,7 +7,7 @@
 
 import nltk
 stemmer = nltk.snowball.EnglishStemmer()
-# TODO find data sets for machine learning methods, build stop-word lists, keyword lists
+# TODO improve criteria generation with ML based stop-word, keyword lists
 
 
 def nlp_process(search_cond):
@@ -18,17 +18,21 @@ def nlp_process(search_cond):
     :return: search_criteria, structured search criteria string
     """
 
+    if search_cond is None:
+        return '[Gmail]/All Mail', 'ALL'
+
     mail_box_list = ['INBOX', '[Gmail]', '[Gmail]/All Mail', '[Gmail]/Drafts', '[Gmail]/Important', '[Gmail]/Sent Mail',
                      '[Gmail]/Spam', '[Gmail]/Starred', '[Gmail]/Trash']
 
     mail_type = ['ANSWERED', 'UNANSWERED', 'ALL', 'SEEN', 'UNSEEN', 'RECENT', 'OLD', 'NEW', 'DELETED']
 
-    mail_date = ['SENTON {date}', 'SENTSINCE {date}', 'SENTBEFORE {date}']
+    mail_date = {'on': 'SENTON {date}', 'after': 'SENTSINCE {date}', 'before': 'SENTBEFORE {date}'}
 
-    mail_field = ['FROM "{search_text}"', 'TO "{search_text}"', 'SUBJECT "{search_text}"', 'BODY "{search_text}"',
-                  'TEXT "{search_text}"']
+    mail_field = {'from': 'FROM "{search_text}"', 'to': 'TO "{search_text}"', 'subject': 'SUBJECT "{search_text}"',
+                  'body': 'BODY "{search_text}"', 'text': 'TEXT "{search_text}"'}
 
-    mail_size = ['SMALLER {size}', 'LARGER {size}']
+    mail_size = {'small': 'SMALLER {size}', 'large': 'LARGER {size}'}
 
-    if search_cond is None:
-        return '[Gmail]/All Mail', 'ALL'
+    or_key = 'OR'
+    and_key = 'AND'
+
