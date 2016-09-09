@@ -2,3 +2,5 @@ keyring
 email
 getpass
 imaplib
+nltk
+
